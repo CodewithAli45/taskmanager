@@ -27,11 +27,11 @@ export const FilterSidebar = ({
       <div className="space-y-4">
         <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">Search Tasks</h3>
         <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-cyan-500 transition-colors" />
           <input
             type="text"
             placeholder="Search anything..."
-            className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm"
+            className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-cyan-500 outline-none transition-all text-sm"
             value={filters.search}
             onChange={e => setFilters({ ...filters, search: e.target.value })}
           />
@@ -52,7 +52,7 @@ export const FilterSidebar = ({
                 onClick={() => setFilters({ ...filters, status: id as Status | 'all' })}
                 className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                   filters.status === id 
-                    ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-200 dark:shadow-none translate-y-[-2px]' 
+                    ? 'bg-cyan-500 text-slate-900 shadow-[0_0_15px_rgba(34,211,238,0.3)] translate-y-[-2px]' 
                     : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
@@ -72,7 +72,7 @@ export const FilterSidebar = ({
                 onClick={() => setFilters({ ...filters, priority: p as Priority | 'all' })}
                 className={`flex-1 px-3 py-2 rounded-xl text-xs font-bold uppercase transition-all border-2 ${
                   filters.priority === p
-                    ? 'border-indigo-500 bg-indigo-50 text-indigo-500 dark:bg-indigo-500/10'
+                    ? 'border-cyan-500 bg-cyan-500/10 text-cyan-500'
                     : 'border-transparent bg-slate-50 dark:bg-slate-800/50 text-slate-400 hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
@@ -86,7 +86,7 @@ export const FilterSidebar = ({
           <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">Sorting</h3>
           <div className="flex gap-2">
             <select
-              className="flex-1 bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none appearance-none cursor-pointer"
+              className="flex-1 bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 outline-none appearance-none cursor-pointer"
               value={sortField}
               onChange={e => setSortField(e.target.value as SortField)}
             >
@@ -97,7 +97,7 @@ export const FilterSidebar = ({
             </select>
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-500 hover:text-indigo-500 transition-colors"
+              className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-500 hover:text-cyan-500 transition-colors"
             >
               {sortOrder === 'asc' ? <SortAsc className="w-5 h-5" /> : <SortDesc className="w-5 h-5" />}
             </button>

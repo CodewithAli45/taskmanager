@@ -40,7 +40,7 @@ export const TaskCard = ({ task, onToggle, onEdit, onDelete }: TaskCardProps) =>
           {isCompleted ? (
             <CheckCircle2 className="w-6 h-6 text-emerald-500" />
           ) : (
-            <Circle className="w-6 h-6 text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 transition-colors" />
+            <Circle className="w-6 h-6 text-slate-300 dark:text-slate-600 group-hover:text-cyan-500 transition-colors" />
           )}
         </button>
         
@@ -59,7 +59,7 @@ export const TaskCard = ({ task, onToggle, onEdit, onDelete }: TaskCardProps) =>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button 
             onClick={() => onEdit(task)}
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-indigo-500 transition-colors"
+            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-cyan-500 transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
@@ -98,7 +98,7 @@ export const TaskCard = ({ task, onToggle, onEdit, onDelete }: TaskCardProps) =>
       {task.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-1">
           {task.tags.map(tag => (
-            <span key={tag} className="text-[10px] text-indigo-400 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900 px-1.5 py-0.5 rounded">
+            <span key={tag} className="text-[10px] text-cyan-500 dark:text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded">
               #{tag}
             </span>
           ))}

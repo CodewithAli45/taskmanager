@@ -62,30 +62,35 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <Loader2 className="w-10 h-10 animate-spin text-indigo-500" />
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Loader2 className="w-10 h-10 animate-spin text-cyan-500" />
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 py-8 md:px-8 lg:px-12 animate-in fade-in duration-500">
+    <main className="min-h-screen bg-background text-foreground px-4 py-8 md:px-8 lg:px-12 animate-in fade-in duration-500">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
         
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-1">
-            <h1 className="text-4xl md:text-5xl font-black bg-clip-text text-transparent gradient-bg tracking-tight">
-              TaskFlow Pro
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium">
-              You have <span className="text-indigo-500 font-bold">{filteredTasks.filter(t => t.status === 'todo').length}</span> pending tasks today
+            <div className="relative inline-block">
+              <h1 className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-cyan-600 tracking-tight">
+                TaskManager
+              </h1>
+              <span className="absolute -bottom-4 right-0 text-xs md:text-sm font-medium text-cyan-500 italic opacity-80">
+                by Ali Murtaza
+              </span>
+            </div>
+            <p className="text-slate-400 dark:text-slate-500 font-medium mt-6">
+              You have <span className="text-cyan-400 font-bold">{filteredTasks.filter(t => t.status === 'todo').length}</span> pending tasks today
             </p>
           </div>
           
           <button 
             onClick={handleOpenCreateModal}
-            className="group flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-4 rounded-3xl font-bold shadow-xl shadow-indigo-200 dark:shadow-none transition-all active:scale-95"
+            className="group flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 px-8 py-4 rounded-3xl font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all active:scale-95 border-2 border-cyan-300"
           >
             <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
             <span className="text-lg">Create New Task</span>
@@ -147,8 +152,8 @@ export default function Home() {
                         onClick={() => setCurrentPage(page)}
                         className={`w-12 h-12 rounded-xl font-bold transition-all ${
                           currentPage === page 
-                            ? 'bg-indigo-500 text-white shadow-lg' 
-                            : 'glass text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            ? 'bg-cyan-500 text-slate-900 shadow-[0_0_15px_rgba(34,211,238,0.3)]' 
+                            : 'glass text-slate-400 hover:bg-slate-800'
                         }`}
                       >
                         {page}
