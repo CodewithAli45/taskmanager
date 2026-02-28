@@ -7,7 +7,7 @@ TaskFlow Pro is a sleek, modern, and feature-rich Task Manager and Todo List app
 ## ✨ Features
 
 - **🚀 PWA Enabled**: Installable on desktop and mobile, with offline persistence.
-- **💾 Local Persistence**: All your data is stored securely in your browser's `localStorage`.
+- **💾 MongoDB Backend**: Robust cloud persistence using MongoDB (Mongoose) and Next.js API routes.
 - **🎨 Stunning UI**: Modern design with glassmorphism, fluid animations, and a responsive layout.
 - **📝 Full CRUD**: Create, Edit, Delete, and Toggle task status.
 - **🔍 Advanced Filtering**:
@@ -25,7 +25,8 @@ TaskFlow Pro is a sleek, modern, and feature-rich Task Manager and Todo List app
 - **Framework**: Next.js (App Router)
 - **Styling**: Tailwind CSS (Vanilla CSS variables & Glassmorphism)
 - **Icons**: Lucide React
-- **PWA**: `next-pwa`
+- **PWA**: `@ducanh2912/next-pwa`
+- **Database**: `mongoose` (MongoDB)
 - **Utilities**: `date-fns`, `clsx`, `tailwind-merge`
 
 ## 🚀 Getting Started
@@ -57,7 +58,7 @@ The application will be available at `http://localhost:3000`.
 To test PWA features and production performance:
 
 ```bash
-npm run build
+npx next build --webpack
 npm run start
 ```
 

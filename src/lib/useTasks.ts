@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Task, TaskFilters, SortField, SortOrder } from '../types/task';
-import { getTasks, saveTasks, addTask as apiAddTask, updateTask as apiUpdateTask, deleteTask as apiDeleteTask, filterAndSortTasks } from './storage';
+import { filterAndSortTasks } from './storage';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -20,9 +20,25 @@ export const useTasks = () => {
   const [sortField, setSortField] = useState<SortField>('createdAt');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
+  const fetchTasks = async () => {
+    try {
+      const res = await fetch('/api/tasks');
+      const data = await res.json();
+      // Map MongoDB _id to id for frontend compatibility
+      const mappedTasks = data.map((t: any) => ({
+        ...t,
+        id: t._id,
+      }));
+      setTasks(mappedTasks);
+    } catch (error) {
+      console.error('Failed to fetch tasks:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setTasks(getTasks());
-    setLoading(false);
+    fetchTasks();
   }, []);
 
   useEffect(() => {
@@ -30,23 +46,47 @@ export const useTasks = () => {
     setFilteredTasks(result);
   }, [tasks, filters, sortField, sortOrder]);
 
-  const refreshTasks = () => setTasks(getTasks());
-
-  const addTask = (task: Omit<Task, 'id' | 'createdAt'>) => {
-    const newTask = apiAddTask(task);
-    refreshTasks();
-    return newTask;
+  const addTask = async (task: Omit<Task, 'id' | 'createdAt'>) => {
+    try {
+      const res = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+      });
+      const newTask = await res.json();
+      const mappedTask = { ...newTask, id: newTask._id };
+      setTasks(prev => [mappedTask, ...prev]);
+      return mappedTask;
+    } catch (error) {
+      console.error('Failed to add task:', error);
+    }
   };
 
-  const updateTask = (id: string, updates: Partial<Task>) => {
-    const updated = apiUpdateTask(id, updates);
-    refreshTasks();
-    return updated;
+  const updateTask = async (id: string, updates: Partial<Task>) => {
+    try {
+      const res = await fetch(`/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      const updatedTask = await res.json();
+      const mappedTask = { ...updatedTask, id: updatedTask._id };
+      setTasks(prev => prev.map(t => t.id === id ? mappedTask : t));
+      return mappedTask;
+    } catch (error) {
+      console.error('Failed to update task:', error);
+    }
   };
 
-  const deleteTask = (id: string) => {
-    apiDeleteTask(id);
-    refreshTasks();
+  const deleteTask = async (id: string) => {
+    try {
+      await fetch(`/api/tasks/${id}`, {
+        method: 'DELETE',
+      });
+      setTasks(prev => prev.filter(t => t.id !== id));
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+    }
   };
 
   const toggleTaskStatus = (id: string) => {

@@ -1,45 +1,10 @@
 import { Task, TaskFilters, SortField, SortOrder } from '../types/task';
 
-const STORAGE_KEY = 'taskflow_tasks';
-
-export const getTasks = (): Task[] => {
-  if (typeof window === 'undefined') return [];
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
-};
-
-export const saveTasks = (tasks: Task[]): void => {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-};
-
-export const addTask = (task: Omit<Task, 'id' | 'createdAt'>): Task => {
-  const tasks = getTasks();
-  const newTask: Task = {
-    ...task,
-    id: crypto.randomUUID(),
-    createdAt: Date.now(),
-  };
-  saveTasks([newTask, ...tasks]);
-  return newTask;
-};
-
-export const updateTask = (id: string, updates: Partial<Task>): Task | null => {
-  const tasks = getTasks();
-  const index = tasks.findIndex(t => t.id === id);
-  if (index === -1) return null;
-  
-  const updatedTask = { ...tasks[index], ...updates };
-  tasks[index] = updatedTask;
-  saveTasks(tasks);
-  return updatedTask;
-};
-
-export const deleteTask = (id: string): void => {
-  const tasks = getTasks();
-  saveTasks(tasks.filter(t => t.id !== id));
-};
-
+/**
+ * Utility to filter and sort tasks on the client side.
+ * We fetch all tasks from MongoDB and then apply filters/sorting here
+ * to maintain the exact same behavior as the initial LocalStorage version.
+ */
 export const filterAndSortTasks = (
   tasks: Task[],
   filters: TaskFilters,
