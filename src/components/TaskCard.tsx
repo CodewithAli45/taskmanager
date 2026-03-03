@@ -28,77 +28,79 @@ export const TaskCard = ({ task, onToggle, onEdit, onDelete }: TaskCardProps) =>
 
   return (
     <div className={cn(
-      "group relative flex flex-col gap-3 p-5 rounded-2xl transition-all duration-300",
-      "glass hover:shadow-xl hover:-translate-y-1",
-      isCompleted ? "opacity-60 grayscale-[0.5]" : "opacity-100"
+      "group relative flex flex-col gap-4 p-5 rounded-3xl transition-all duration-500",
+      "bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/50 shadow-sm hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1.5",
+      isCompleted ? "opacity-60" : "opacity-100"
     )}>
       <div className="flex items-start justify-between gap-4">
         <button 
           onClick={() => onToggle(task.id)}
-          className="mt-1 flex-shrink-0 transition-transform active:scale-90"
+          className="mt-1 flex-shrink-0 transition-all active:scale-75"
         >
           {isCompleted ? (
-            <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+            <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            </div>
           ) : (
-            <Circle className="w-6 h-6 text-slate-300 dark:text-slate-600 group-hover:text-cyan-500 transition-colors" />
+            <Circle className="w-6 h-6 text-slate-200 dark:text-slate-800 group-hover:text-cyan-500 transition-colors stroke-[1.5px]" />
           )}
         </button>
         
         <div className="flex-1 min-w-0">
           <h3 className={cn(
-            "text-lg font-semibold truncate transition-all",
-            isCompleted && "line-through text-slate-500"
+            "text-lg font-bold tracking-tight transition-all text-slate-900 dark:text-slate-100",
+            isCompleted && "line-through text-slate-400 dark:text-slate-600"
           )}>
             {task.title}
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mt-1">
+          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mt-1.5 leading-relaxed font-medium">
             {task.description}
           </p>
         </div>
 
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
           <button 
             onClick={() => onEdit(task)}
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-cyan-500 transition-colors"
+            className="p-2 rounded-xl hover:bg-cyan-50 dark:hover:bg-cyan-500/10 text-slate-400 hover:text-cyan-500 transition-all"
           >
             <Edit2 className="w-4 h-4" />
           </button>
           <button 
             onClick={() => onDelete(task.id)}
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-rose-500 transition-colors"
+            className="p-2 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition-all"
           >
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 pt-2">
+      <div className="flex flex-wrap items-center gap-3 pt-4 mt-auto border-t border-slate-50 dark:border-slate-800/50">
         <span className={cn(
-          "px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wider",
+          "px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-[0.15em]",
           priorityColors[task.priority]
         )}>
           {task.priority}
         </span>
         
         {task.category && (
-          <span className="flex items-center gap-1 text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+          <span className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/40 px-3 py-1 rounded-lg">
             <Tag className="w-3 h-3" />
             {task.category}
           </span>
         )}
         
         {task.dueDate && (
-          <span className="flex items-center gap-1 text-xs text-slate-400 ml-auto">
-            <Clock className="w-3 h-3" />
+          <span className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 dark:text-slate-500 ml-auto">
+            <CalendarIcon className="w-3 h-3" />
             {format(new Date(task.dueDate), 'MMM d, yyyy')}
           </span>
         )}
       </div>
 
       {task.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-1">
+        <div className="flex flex-wrap gap-2 mt-1">
           {task.tags.map(tag => (
-            <span key={tag} className="text-[10px] text-cyan-500 dark:text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+            <span key={tag} className="text-[10px] font-bold text-cyan-600 dark:text-cyan-400/80 bg-cyan-50 dark:bg-cyan-500/5 px-2 py-0.5 rounded-md">
               #{tag}
             </span>
           ))}

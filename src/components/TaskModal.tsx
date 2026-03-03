@@ -90,12 +90,12 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[70vh] overflow-y-auto custom-scrollbar">
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Title</label>
+        <form onSubmit={handleSubmit} className="p-6 space-y-5 max-h-[70vh] overflow-y-auto custom-scrollbar">
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Title</label>
             <input
               autoFocus
-              className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-cyan-500 transition-all outline-none"
+              className="w-full bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 font-medium"
               placeholder="What needs to be done?"
               value={title}
               onChange={e => setTitle(e.target.value)}
@@ -103,10 +103,10 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
             />
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Description</label>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Description</label>
             <textarea
-              className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 min-h-[100px] focus:ring-2 focus:ring-indigo-500 transition-all outline-none resize-none"
+              className="w-full bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 min-h-[120px] focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none resize-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 leading-relaxed"
               placeholder="Add some details..."
               value={description}
               onChange={e => setDescription(e.target.value)}
@@ -114,24 +114,29 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Priority</label>
-              <select
-                className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-indigo-500 transition-all outline-none appearance-none cursor-pointer"
-                value={priority}
-                onChange={e => setPriority(e.target.value as Priority)}
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Priority</label>
+              <div className="relative group">
+                <select
+                  className="w-full bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none appearance-none cursor-pointer text-slate-900 dark:text-slate-100 font-medium"
+                  value={priority}
+                  onChange={e => setPriority(e.target.value as Priority)}
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover:text-cyan-500 transition-colors">
+                  <Plus className="w-4 h-4 rotate-45" />
+                </div>
+              </div>
             </div>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Due Date</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Due Date</label>
               <div className="relative">
                 <input
                   type="date"
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-indigo-500 transition-all outline-none cursor-pointer"
+                  className="w-full bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none cursor-pointer text-slate-900 dark:text-slate-100 font-medium"
                   value={dueDate}
                   onChange={e => setDueDate(e.target.value)}
                 />
@@ -140,21 +145,21 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Category</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Category</label>
               <input
-                className="w-full bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-cyan-500 transition-all outline-none"
-                placeholder="Work, Personal, etc."
+                className="w-full bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 font-medium"
+                placeholder="e.g. Work, Personal"
                 value={category}
                 onChange={e => setCategory(e.target.value)}
               />
             </div>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Tags</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-1">Tags</label>
               <div className="flex gap-2">
                 <input
-                  className="flex-1 bg-slate-50 dark:bg-slate-800/50 border-0 rounded-2xl p-4 focus:ring-2 focus:ring-cyan-500 transition-all outline-none"
-                  placeholder="Press enter..."
+                  className="flex-1 bg-slate-50 dark:bg-slate-800/40 border-2 border-transparent rounded-2xl p-4 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-all outline-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 font-medium"
+                  placeholder="New tag..."
                   value={newTag}
                   onChange={e => setNewTag(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
@@ -162,9 +167,9 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
                 <button 
                   type="button" 
                   onClick={addTag}
-                  className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 p-4 rounded-2xl transition-transform active:scale-95 shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 p-4 rounded-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/20 flex items-center justify-center group"
                 >
-                  <Plus className="w-5 h-5" />
+                  <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                 </button>
               </div>
             </div>
@@ -184,18 +189,18 @@ export const TaskModal = ({ isOpen, onClose, onSave, initialTask }: TaskModalPro
           )}
         </form>
 
-        <div className="p-6 border-t border-slate-100 dark:border-slate-800 flex gap-3">
+        <div className="p-6 border-t border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-800/20 flex gap-3">
           <button 
             type="button" 
             onClick={onClose}
-            className="flex-1 px-6 py-4 rounded-2xl font-semibold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="flex-1 px-6 py-4 rounded-2xl font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
           >
             Cancel
           </button>
           <button 
             type="submit" 
             onClick={handleSubmit}
-            className="flex-[2] bg-cyan-500 hover:bg-cyan-400 text-slate-900 px-6 py-4 rounded-2xl font-bold shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all active:scale-95 border border-cyan-300/50"
+            className="flex-[2] bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-slate-900 px-6 py-4 rounded-2xl font-bold shadow-xl shadow-cyan-500/25 transition-all active:scale-[0.98] border border-cyan-400/30"
           >
             {initialTask ? 'Save Changes' : 'Create Task'}
           </button>

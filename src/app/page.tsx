@@ -1,39 +1,60 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTasks } from '../lib/useTasks';
 import { TaskCard } from '../components/TaskCard';
 import { TaskModal } from '../components/TaskModal';
 import { FilterSidebar } from '../components/FilterSidebar';
 import { Plus, ListTodo, ChevronLeft, ChevronRight, LayoutGrid, Search, Loader2 } from 'lucide-react';
 import { Task } from '../types/task';
+import { useAuth } from '@/lib/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const ITEMS_PER_PAGE = 6;
 
 export default function Home() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, authLoading, router]);
+
   const {
     filteredTasks,
     loading,
+    addTask,
+    updateTask,
+    deleteTask,
+    toggleTaskStatus,
     filters,
     setFilters,
     sortField,
     setSortField,
     sortOrder,
     setSortOrder,
-    addTask,
-    updateTask,
-    deleteTask,
-    toggleTaskStatus,
   } = useTasks();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const categories = useMemo(() => {
     const cats = new Set(filteredTasks.map(t => t.category).filter(Boolean));
-    return Array.from(cats);
+    return Array.from(cats) as string[];
   }, [filteredTasks]);
+
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
+        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-xs">Authenticating...</p>
+      </div>
+    );
+  }
 
   const paginatedTasks = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -69,7 +90,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground px-4 py-8 md:px-8 lg:px-12 animate-in fade-in duration-500">
+    <main className="min-h-screen bg-background text-foreground px-4 py-2 md:px-8 lg:px-12 animate-in fade-in duration-500">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
         
         {/* Header Section */}
@@ -116,7 +137,7 @@ export default function Home() {
           <section className="lg:col-span-9 space-y-8">
             {filteredTasks.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 glass rounded-3xl border-dashed border-2">
-                <div className="bg-slate-100 dark:bg-slate-900 p-6 rounded-full mb-4">
+                <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded-full mb-4">
                   <ListTodo className="w-12 h-12 text-slate-300" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-400">No tasks found</h3>

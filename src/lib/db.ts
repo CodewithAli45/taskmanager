@@ -5,41 +5,50 @@ import mongoose from 'mongoose';
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+interface MongooseCache {
+  conn: any;
+  promise: any;
 }
 
-async function dbConnect() {
-  const MONGODB_URI = process.env.MONGODB_URI;
+let cached: { [key: string]: MongooseCache } = (global as any).mongoose || {};
+
+if (!(global as any).mongoose) {
+  (global as any).mongoose = cached;
+}
+
+async function dbConnect(uriName: 'MONGODB_URI' | 'MONGODB_URI_USERS' = 'MONGODB_URI') {
+  const MONGODB_URI = process.env[uriName];
 
   if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable');
+    throw new Error(`Please define the ${uriName} environment variable`);
   }
 
-  if (cached.conn) {
-    return cached.conn;
+  if (!cached[uriName]) {
+    cached[uriName] = { conn: null, promise: null };
   }
 
-  if (!cached.promise) {
+  if (cached[uriName].conn) {
+    return cached[uriName].conn;
+  }
+
+  if (!cached[uriName].promise) {
     const opts = {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    cached[uriName].promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }
 
   try {
-    cached.conn = await cached.promise;
+    cached[uriName].conn = await cached[uriName].promise;
   } catch (e) {
-    cached.promise = null;
+    cached[uriName].promise = null;
     throw e;
   }
 
-  return cached.conn;
+  return cached[uriName].conn;
 }
 
 export default dbConnect;
