@@ -23,27 +23,33 @@ async function dbConnect(uriName: 'MONGODB_URI' | 'MONGODB_URI_USERS' = 'MONGODB
     throw new Error(`Please define the ${uriName} environment variable`);
   }
 
+  // Initialize cache for this specific URI if it doesn't exist
   if (!cached[uriName]) {
     cached[uriName] = { conn: null, promise: null };
   }
 
+  // Return existing connection if available
   if (cached[uriName].conn) {
     return cached[uriName].conn;
   }
 
+  // If no promise exists, create one
   if (!cached[uriName].promise) {
     const opts = {
       bufferCommands: false,
     };
 
-    cached[uriName].promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
+    console.log(`Connecting to MongoDB using ${uriName}...`);
+    cached[uriName].promise = mongoose.connect(MONGODB_URI, opts).then((m) => {
+      console.log(`Connected to MongoDB successfully via ${uriName}`);
+      return m;
     });
   }
 
   try {
     cached[uriName].conn = await cached[uriName].promise;
-  } catch (e) {
+  } catch (e: any) {
+    console.error(`MongoDB connection error for ${uriName}:`, e.message);
     cached[uriName].promise = null;
     throw e;
   }

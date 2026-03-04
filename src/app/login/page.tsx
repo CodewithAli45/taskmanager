@@ -98,7 +98,6 @@ export default function LoginPage() {
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 ml-1">Password</label>
-                <Link href="#" className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-500 hover:text-cyan-400 transition-colors">Forgot Password?</Link>
               </div>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-cyan-500 transition-all duration-300" />
@@ -111,6 +110,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              <Link href="#" className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-500 hover:text-cyan-400 transition-colors">Forgot Password?</Link>
             </div>
           </div>
 

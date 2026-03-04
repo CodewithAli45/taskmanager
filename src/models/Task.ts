@@ -2,6 +2,12 @@ import mongoose, { Schema, model, models } from 'mongoose';
 import { Priority, Status } from '../types/task';
 
 const TaskSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true,
+  },
   title: {
     type: String,
     required: [true, 'Please provide a title for this task.'],
@@ -38,7 +44,7 @@ const TaskSchema = new Schema({
     default: Date.now,
   },
 }, {
-  timestamps: false, // We use createdAt: Number to match existing frontend expectations
+  timestamps: false,
 });
 
 // Avoid re-compiling the model if it already exists

@@ -59,18 +59,7 @@ export const TaskCard = ({ task, onToggle, onEdit, onDelete }: TaskCardProps) =>
         </div>
 
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-          <button 
-            onClick={() => onEdit(task)}
-            className="p-2 rounded-xl hover:bg-cyan-50 dark:hover:bg-cyan-500/10 text-slate-400 hover:text-cyan-500 transition-all"
-          >
-            <Edit2 className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={() => onDelete(task.id)}
-            className="p-2 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition-all"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
+          {/* Edit and Delete buttons removed as per requirement */}
         </div>
       </div>
 

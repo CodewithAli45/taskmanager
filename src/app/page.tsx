@@ -43,18 +43,13 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const categories = useMemo(() => {
+    if (!Array.isArray(filteredTasks)) {
+      console.warn('filteredTasks is not an array:', filteredTasks);
+      return [];
+    }
     const cats = new Set(filteredTasks.map(t => t.category).filter(Boolean));
     return Array.from(cats) as string[];
   }, [filteredTasks]);
-
-  if (authLoading || !user) {
-    return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
-        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-xs">Authenticating...</p>
-      </div>
-    );
-  }
 
   const paginatedTasks = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -80,6 +75,15 @@ export default function Home() {
     setEditingTask(null);
     setIsModalOpen(true);
   };
+
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
+        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-xs">Authenticating...</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

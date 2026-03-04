@@ -23,15 +23,32 @@ export const useTasks = () => {
   const fetchTasks = async () => {
     try {
       const res = await fetch('/api/tasks');
+      
+      if (res.status === 401) {
+        setTasks([]);
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch tasks: ${res.statusText}`);
+      }
+
       const data = await res.json();
-      // Map MongoDB _id to id for frontend compatibility
-      const mappedTasks = data.map((t: any) => ({
-        ...t,
-        id: t._id,
-      }));
-      setTasks(mappedTasks);
-    } catch (error) {
-      console.error('Failed to fetch tasks:', error);
+      
+      if (Array.isArray(data)) {
+        // Map MongoDB _id to id for frontend compatibility
+        const mappedTasks = data.map((t: any) => ({
+          ...t,
+          id: t._id,
+        }));
+        setTasks(mappedTasks);
+      } else {
+        console.error('Expected array from /api/tasks, but got unexpected format');
+        setTasks([]);
+      }
+    } catch (error: any) {
+      console.error('Error fetching tasks:', error.message);
+      setTasks([]);
     } finally {
       setLoading(false);
     }
@@ -78,15 +95,8 @@ export const useTasks = () => {
     }
   };
 
-  const deleteTask = async (id: string) => {
-    try {
-      await fetch(`/api/tasks/${id}`, {
-        method: 'DELETE',
-      });
-      setTasks(prev => prev.filter(t => t.id !== id));
-    } catch (error) {
-      console.error('Failed to delete task:', error);
-    }
+  const deleteTask = async () => {
+    console.warn('Deletion is restricted. Only developer can delete from backend.');
   };
 
   const toggleTaskStatus = (id: string) => {
